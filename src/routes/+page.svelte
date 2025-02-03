@@ -4,11 +4,19 @@
 	import { browser } from '$app/environment'; // Import browser check
 
 	let multiValue = 'love';
+    let message = 'Write letter here!!';
+    let msgLength;
+    let email = "NoOne@Null.com";
+    $: msgLength = message.length;
+
+
     $: {
-	if (browser) {
-		document.body.classList.toggle("dark-mode", multiValue === "anti");
-	}
-}
+	    if (browser) {
+		    document.body.classList.toggle("dark-mode", multiValue === "anti");
+	    }
+    }
+
+
 </script>
 
 <h1 id="title">(Anti) Love Letter</h1>
@@ -16,6 +24,16 @@
 <div class="switch">
     <Switch bind:value={multiValue}  label="Choose a theme" design="multi" options={['love', 'anti']} fontSize={12} />
     <p>Switch is {multiValue}</p>
+</div>
+
+<div class=bottom>
+    <label for="email">Email Address</label>
+    <textarea name="email"  rows="2" cols="40" wrap="soft" maxlength="50" bind:value = {email} ></textarea>
+    <br>
+    <label for="letter">Letter</label>
+    <textarea name="letter" rows="15" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
+    <p>{message.length}</p>
+    <button>Send</button>
 </div>
 
 <style>
@@ -30,6 +48,7 @@
   --dark-bg: darkslategray;
   --dark-color: ghostwhite;
   --dark-code: gold;
+  --dark-alt: #c1121f;
 }
 
 #title {
@@ -39,6 +58,28 @@
   padding: 2em;
   border: dotted  0.5em;
 }
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-left: auto;
+    padding-right: auto;
+}
+
+#letter {
+    width: 15em;
+    height: 10em;
+    padding-bottom: 2em;
+}
+
+
+#letter:focus {
+    background-color: var(--dark-alt);
+}
+
+
 
 :global(body) {
   background-color: var(--light-bg);
