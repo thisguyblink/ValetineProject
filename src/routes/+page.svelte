@@ -19,7 +19,6 @@
 </div>
 
 <style>
-
 :root {
   /* this has to be set to switch between light or dark */
   color-scheme: light dark;
@@ -33,38 +32,41 @@
   --dark-code: gold;
 }
 
-	#title {
-		justify-content: center;
-		text-align: center;
-		color: green;
-		margin: 0.5em;
-		padding: 2em;
-		border: dotted green 0.5em;
-	}
+#title {
+  justify-content: center;
+  text-align: center;
+  margin: 0.5em;
+  padding: 2em;
+  border: dotted  0.5em;
+}
 
-	:global(body) {
-		background-color: #f2eee2;
-		color: #0084f6;
-		transition: background-color 0.3s;
-	}
+:global(body) {
+  background-color: var(--light-bg);
+  color: var(--light-color); /* Default light color */
+  /* transition: color 0.3s, background-color 0.3s; */
+}
 
-	:global(.dark-mode) {
-		background-color: #1d3040;
-		color: #bfc2c7;
-	}
+:global(.dark-mode) {
+  background-color: var(--dark-bg);
+  color: var(--dark-color);
+}
 
-    .switch {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 200px; /* Adjust width */
-    height: 100px; /* Adjust height */
-    margin: 20px auto; /* Centers horizontally */
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #f0f0f0; /* love gray background */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
-    font-size: 2em;
-    }
+.switch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px; /* Adjust width */
+  height: 100px; /* Adjust height */
+  margin: 20px auto; /* Centers horizontally */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--light-code); /* Default background */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  font-size: 2em;
+}
+
+:global(.dark-mode) .switch {
+  background-color: var(--dark-code);
+}
 
 </style>
