@@ -1,5 +1,6 @@
 <script>
 	import Switch from './Switch.svelte';
+    import { injectAnalytics } from '@vercel/analytics/sveltekit'
 
 	import { browser } from '$app/environment'; // Import browser check
 
