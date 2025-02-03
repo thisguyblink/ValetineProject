@@ -8,7 +8,7 @@
     export let label;
     export let design = 'inner label'
     export let options = [];
-		export let fontSize = 16;
+		export let fontSize = '10em';
 	  export let value = 'on';
 
     let checked = true;
@@ -47,7 +47,7 @@
     </button>
 </div>
 {:else if design == 'slider'}
-<div class="s s--slider" style="font-size:{fontSize}px">
+<div class="s s--slider" style="font-size:{fontSize}">
     <span id={`switch-${uniqueID}`}>{label}</span>
     <button
         role="switch"
@@ -61,7 +61,7 @@
     <div role='radiogroup'
 				 class="group-container"
 				 aria-labelledby={`label-${uniqueID}`}
-				 style="font-size:{fontSize}px" 
+				 style="font-size: 1.5em" 
 				 id={`group-${uniqueID}`}>
     <div class='legend' id={`label-${uniqueID}`}>{label}</div>
         {#each options as option}

@@ -4,36 +4,50 @@
 	import { browser } from '$app/environment'; // Import browser check
 
 	let multiValue = 'love';
-    let message = 'Write letter here!!';
+    let message = "";
     let msgLength;
-    let email = "NoOne@Null.com";
+    let email = "";
+    let loveStatus = false;
+    let loveVal = "Love Letter";
+    let output = "";
     $: msgLength = message.length;
-
 
     $: {
 	    if (browser) {
 		    document.body.classList.toggle("dark-mode", multiValue === "anti");
+            loveStatus = !loveStatus
 	    }
+        if (loveStatus){
+            loveVal = "Love Letter"
+        } else {
+            loveVal = "(Anti) Love Letter"
+        }
+    }
+
+    function sendEmail() {
+        output = `This is the email ${email} and this is the message ${message}`;
+
     }
 
 
 </script>
 
-<h1 id="title">(Anti) Love Letter</h1>
+<h1 id="title"> {loveVal}</h1>
 
 <div class="switch">
     <Switch bind:value={multiValue}  label="Choose a theme" design="multi" options={['love', 'anti']} fontSize={12} />
-    <p>Switch is {multiValue}</p>
+    <!-- <p>Switch is {multiValue}</p> -->
 </div>
 
 <div class=bottom>
-    <label for="email">Email Address</label>
-    <textarea name="email"  rows="2" cols="40" wrap="soft" maxlength="50" bind:value = {email} ></textarea>
-    <br>
-    <label for="letter">Letter</label>
-    <textarea name="letter" rows="15" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
-    <p>{message.length}</p>
-    <button>Send</button>
+        <label for="email">Email Address</label>
+        <textarea name="email"  placeholder="Email Address" rows="2" cols="40" wrap="soft" maxlength="50" bind:value = {email} ></textarea>
+        <br>
+        <label for="letter">Letter</label>
+        <textarea name="letter" placeholder="Write Letter Here" rows="15" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
+        <p>{message.length}/400</p>
+        <button on:click={() => sendEmail()}>Send</button>
+        <p>{output}</p>
 </div>
 
 <style>
@@ -49,6 +63,7 @@
   --dark-color: ghostwhite;
   --dark-code: gold;
   --dark-alt: #c1121f;
+  transition: all 1s ease;
 }
 
 #title {
@@ -56,7 +71,6 @@
   text-align: center;
   margin: 0.5em;
   padding: 2em;
-  border: dotted  0.5em;
 }
 
 .bottom {
@@ -68,23 +82,11 @@
     padding-right: auto;
 }
 
-#letter {
-    width: 15em;
-    height: 10em;
-    padding-bottom: 2em;
-}
-
-
-#letter:focus {
-    background-color: var(--dark-alt);
-}
-
-
 
 :global(body) {
   background-color: var(--light-bg);
   color: var(--light-color); /* Default light color */
-  /* transition: color 0.3s, background-color 0.3s; */
+  transition: color 1s, background-color 1s;
 }
 
 :global(.dark-mode) {
@@ -103,7 +105,6 @@
   border-radius: 10px;
   background-color: var(--light-code); /* Default background */
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow */
-  font-size: 2em;
 }
 
 :global(.dark-mode) .switch {
