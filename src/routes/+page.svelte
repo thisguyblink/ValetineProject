@@ -44,7 +44,7 @@
         <textarea name="email"  placeholder="Email Address" rows="2" cols="40" wrap="soft" maxlength="50" bind:value = {email} ></textarea>
         <br>
         <label for="letter">Letter</label>
-        <textarea name="letter" placeholder="Write Letter Here" rows="15" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
+        <textarea name="letter" placeholder="Write Letter Here" rows="12" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
         <p>{message.length}/400</p>
         <button on:click={() => sendEmail()}>Send</button>
         <p>{output}</p>
@@ -70,7 +70,7 @@
   justify-content: center;
   text-align: center;
   margin: 0.5em;
-  padding: 2em;
+  padding: 1em;
 }
 
 .bottom {
@@ -109,6 +109,32 @@
 
 :global(.dark-mode) .switch {
   background-color: var(--dark-code);
+}
+
+
+textarea {
+  width: 100%;
+  max-width: 400px;
+  min-width: 250px;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid var(--light-color);
+  border-radius: 8px;
+  background-color: var(--light-bg);
+  color: var(--light-color);
+  transition: all 0.3s ease-in-out;
+  resize: vertical; /* Allows resizing only vertically */
+}
+
+textarea::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+:global(.dark-mode) textarea {
+  background-color: var(--dark-bg);
+  color: var(--dark-color);
+  border: 2px solid var(--dark-color);
 }
 
 </style>
