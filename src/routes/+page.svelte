@@ -1,6 +1,5 @@
 <script>
 	import Switch from './Switch.svelte';
-    import { injectAnalytics } from '@vercel/analytics/sveltekit'
 
 	import { browser } from '$app/environment'; // Import browser check
 
@@ -25,9 +24,21 @@
         }
     }
 
-    function sendEmail() {
-        output = `This is the email ${email} and this is the message ${message}`;
-
+    async function sendEmail() {
+        try {
+            const response = await fetch('/sendE', {
+                method: 'POST',
+                body: JSON.stringify({ email, message, loveStatus }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            let details = String(data.details)
+;            output = data.success ? "Email sent successfully!" : `Error: ${data.error}`;
+        } catch (err) {
+            output = `Failed to send email. Failed to send email to ${email}... with the message ${message}`;
+        }
     }
 
 
@@ -42,7 +53,7 @@
 
 <div class=bottom>
         <label for="email">Email Address</label>
-        <textarea name="email"  placeholder="Email Address" rows="2" cols="40" wrap="soft" maxlength="50" bind:value = {email} ></textarea>
+        <textarea name="email"  placeholder="Email Address" rows="2" cols="40" wrap="soft" maxlength="50" autocomplete="email" bind:value = {email} ></textarea>
         <br>
         <label for="letter">Letter</label>
         <textarea name="letter" placeholder="Write Letter Here" rows="12" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
