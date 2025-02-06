@@ -1,7 +1,10 @@
-import { PUBLIC_KEY } from '$env/static/private';
+import { PUBLIC_KEY } from '$env/static/public';
 import { PRIVATE_KEY } from '$env/static/private';
+import Mailjet from 'node-mailjet';
+
 
 export async function POST({ request }) {
+
     try {
         // Parse request body
         const { email, message, loveStatus } = await request.json();
@@ -25,19 +28,20 @@ export async function POST({ request }) {
             return new Response(JSON.stringify({ error: "Mailjet API keys are missing" }), { status: 500 });
         }
 
-        // Initialize Mailjet
-        const mailjet = require('node-mailjet')
-            .connect(PUBLIC_KEY, PRIVATE_KEY);
+        const mailjetClient = new Mailjet.Client({
+            apiKey: PUBLIC_KEY,
+            apiSecret: PRIVATE_KEY
+          });
 
         // Send email
-        const result = await mailjet
+        const result = await mailjetClient
             .post("send", { version: "v3.1" })
             .request({
                 Messages: [
                     {
                         From: {
                             Email: "patrickliamsmith@gmail.com",
-                            Name: "Patrick Smith"
+                            Name: "Anonymous"
                         },
                         To: [
                             {
@@ -45,9 +49,17 @@ export async function POST({ request }) {
                                 Name: "Recipient"
                             }
                         ],
-                        Subject: "Your email flight plan!",
+                        Subject: "Love Letter!!",
                         TextPart: message,
-                        HTMLPart: `<h2>Dear Recipient, hope you liked this letter!</h2><br /><h3>May the delivery force be with you!</h3>`
+                        HTMLPart: 
+                        `<div style="max-width: 500px; margin: auto; padding: 20px; border: 2px solid #ff4081; border-radius: 10px; background-color: #fff5f8; color: #333; font-family: Arial, sans-serif;">
+                        <h2 style="color: #d81b60; text-align: center;">Dear Recipient,</h2>
+                        <p style="font-size: 16px; line-height: 1.5; text-align: center;">
+                        ${message}
+                        </p>
+                        <br />
+                        <h3 style="color: #00796b; text-align: center;">May the delivery force be with you!</h3>
+                        </div>`
                     }
                 ]
             });

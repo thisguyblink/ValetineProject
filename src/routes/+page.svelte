@@ -35,7 +35,7 @@
             });
             const data = await response.json();
             let details = String(data.details)
-;            output = data.success ? "Email sent successfully!" : `Error: ${data.error}`;
+;            output = data.success ? "Email sent successfully!" : `Error: ${data.details}`;
         } catch (err) {
             output = `Failed to send email. Failed to send email to ${email}... with the message ${message}`;
         }

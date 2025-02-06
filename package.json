@@ -49,6 +49,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
-		"@vercel/analytics": "^1.4.1"
+		"@vercel/analytics": "^1.4.1",
+		"node-mailjet": "^6.0.6"
 	}
 }
