@@ -58,8 +58,10 @@
         <label for="letter">Letter</label>
         <textarea name="letter" placeholder="Write Letter Here" rows="12" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
         <p>{message.length}/400</p>
+        <p>{loveStatus}</p>
         <button on:click={() => sendEmail()}>Send</button>
         <p>{output}</p>
+        
 </div>
 
 <style>
