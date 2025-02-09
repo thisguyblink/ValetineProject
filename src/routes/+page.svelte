@@ -10,6 +10,8 @@
     let loveStatus = false;
     let loveVal = "Love Letter";
     let output = "";
+    let dialog;
+    let submitted = false;
     $: msgLength = message.length;
 
     $: {
@@ -24,7 +26,32 @@
         }
     }
 
+    function showPop() {
+        dialog.showModal();
+    }
+    function closePop() {
+        dialog.close();
+    }
+
+    async function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function loading() {
+      for (let i = 0; i < 5; i++) {
+        output = "Loading .";
+        await sleep(500);
+        output = "Loading . . ";
+        await sleep(500);
+        output = "Loading . . . ";
+        await sleep(500);
+      }
+
+    }
+
     async function sendEmail() {
+      submitted = true;
+      output = "Loading ...";
         try {
             const response = await fetch('/sendE', {
                 method: 'POST',
@@ -34,11 +61,15 @@
                 }
             });
             const data = await response.json();
-            let details = String(data.details)
-;            output = data.success ? "Email sent successfully!" : `Error: ${data.details}`;
+            output = data.success ? "Email sent successfully!" : `Error: ${data.details}`;
         } catch (err) {
-            output = `Failed to send email. Failed to send email to ${email}... with the message ${message}`;
+            output = `Failed to send email. Failed to send email to: ${email}... with the message: ${message}`;
         }
+        showPop();          
+        message = "";
+        email = "";
+        await loading();
+        output = "Email has been submitted"
     }
 
 
@@ -48,7 +79,6 @@
 
 <div class="switch">
     <Switch bind:value={multiValue}  label="Choose a theme" design="multi" options={['love', 'anti']} fontSize={12} />
-    <!-- <p>Switch is {multiValue}</p> -->
 </div>
 
 <div class=bottom>
@@ -58,11 +88,19 @@
         <label for="letter">Letter</label>
         <textarea name="letter" placeholder="Write Letter Here" rows="12" cols="30" wrap="soft" maxlength="450" bind:value = {message} ></textarea>
         <p>{message.length}/400</p>
-        <p>{loveStatus}</p>
         <button on:click={() => sendEmail()}>Send</button>
-        <p>{output}</p>
+        
         
 </div>
+
+<dialog class="popup" bind:this={dialog}>
+  <br>
+  <h2>{output}</h2>
+  <button type="button" id="exit" on:click={() => {
+    closePop();
+    }}>Close</button>
+</dialog>
+
 
 <style>
 :root {
@@ -151,4 +189,24 @@ textarea::placeholder {
   border: 2px solid var(--dark-color);
 }
 
+
+.popup {
+    background: #1a1a1a;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+}
+
+.popup button {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: #ff4444;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
 </style>
